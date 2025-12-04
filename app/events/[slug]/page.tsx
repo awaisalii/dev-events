@@ -1,24 +1,19 @@
-
+// app/events/[slug]/page.tsx
 import EventDetails from "@/components/EventDetails";
-import { cacheLife } from "next/cache";
-import Image from "next/image";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
-
-
 
 export default async function EventDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string }; 
 }) {
-    const slug= params?.then((p)=>p.slug);
-    return(
-      <>
-      <Suspense fallback={<div>Loading...</div>} >
-        <EventDetails params={slug} />
+  // 
+  // console.log(slug)
+  return (
+    <>
+      <Suspense fallback={<div>Loading Event Details...</div>}>
+        <EventDetails params={params} /> 
       </Suspense>
-      </>
-    )
-
+    </>
+  );
 }
