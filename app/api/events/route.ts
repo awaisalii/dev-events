@@ -1,3 +1,4 @@
+import { events } from '@/lib/constraints';
 import cloudinary from "@/lib/cloudinary";
 import { Event } from "@/database";
 import connectDB from "@/lib/mongodb";
@@ -18,6 +19,14 @@ export async function POST(req: NextRequest) {
         if (!file) {
             return NextResponse.json({ message: "Image is required", }, { status: 400 })
         }
+        const agendas = (formData.get('agenda') as string)
+            ?.split(',')
+            .map(a => a.trim());
+
+        const tags = (formData.get('tags') as string)
+            ?.split(',')
+            .map(t => t.trim());
+
 
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
@@ -36,8 +45,12 @@ export async function POST(req: NextRequest) {
             upload.end(buffer);
         });
 
-        event.image=(uploadResult as {secure_url:string}).secure_url;
-        const createdEvent = await Event.create(event);
+        event.image = (uploadResult as { secure_url: string }).secure_url;
+        const createdEvent = await Event.create({
+            ...event,
+            tags,
+            agenda: agendas
+        });
         return NextResponse.json({ message: "Event Created Successfully", event: createdEvent }, { status: 200 })
 
     } catch (e) {
@@ -47,17 +60,17 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function GET(){
+export async function GET() {
     try {
-        
+
         await connectDB();
 
-        const events= await Event.find().sort({createdAt:-1});
+        const events = await Event.find().sort({ createdAt: -1 });
 
-        return NextResponse.json({message:"Events fetched successfully", events},{status:200})
+        return NextResponse.json({ message: "Events fetched successfully", events }, { status: 200 })
 
     } catch (error) {
         console.log(error);
-        return NextResponse.json({message:"Server Error Occured",error},{status:500})    
+        return NextResponse.json({ message: "Server Error Occured", error }, { status: 500 })
     }
 }
