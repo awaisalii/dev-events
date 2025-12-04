@@ -3,14 +3,13 @@ import EventCard from '@/components/EventCard';
 import { events } from '@/lib/constraints';
 import { IEvent } from '@/database/event.model';
 import { cacheLife } from 'next/cache';
-
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
   'use cache'
   cacheLife("hours");
-  const response = await fetch(`${baseUrl}/api/events`);
-  const data = await response.json();
-  const events: IEvent[] = data.events;
+  // const response = await fetch(`${baseUrl}/api/events`);
+  // const data = await response.json();
+  // const events: IEvent[] = data.events;
   console.log(events)
 
   return (
