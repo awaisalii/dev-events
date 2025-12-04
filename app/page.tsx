@@ -4,7 +4,7 @@ import { events } from '@/lib/constraints';
 import { IEvent } from '@/database/event.model';
 import { cacheLife } from 'next/cache';
 
-const baseUrl = process.env.NEXT_BASE_URL;
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
   'use cache'
   cacheLife("hours");

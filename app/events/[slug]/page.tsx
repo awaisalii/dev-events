@@ -6,7 +6,7 @@ import { cacheLife } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-const BASE_URL = process.env.NEXT_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const EventDetailItem = ({ icon, alt, label }: { icon: string, alt: string, label: string }) => {
 
